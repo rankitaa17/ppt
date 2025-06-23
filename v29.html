@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MG Motors × MoEngage | Intelligent Customer Journeys</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --moengage-blue: #0a7aff;
+            --moengage-light-blue: #e6f0ff;
+            --moengage-lighter-blue: #f5f9ff;
+            --moengage-dark: #051225;
+            --moengage-secondary: #e62e2d;
+            --moengage-accent: #1d4ed8;
+            --moengage-white: #ffffff;
+            --moengage-light-gray: #f8fafc;
+            --transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--moengage-dark);
+            line-height: 1.6;
+            background: var(--moengage-light-gray);
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        .presentation-container {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        
+        /* Slide styling */
+        .ppt-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+            transition: transform 1.2s ease, opacity 1.2s ease;
+            opacity: 0;
+            transform: translateY(50px);
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+            overflow-y: auto;
+        }
+        
+        .ppt-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 10;
+        }
+        
+        .slide-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            position: relative;
+        }
+        
+        .slide-header:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--moengage-blue);
+            border-radius: 2px;
+        }
+        
+        .slide-header h2 {
+            font-size: 2.8rem;
+            color: var(--moengage-blue);
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .slide-header p {
+            font-size: 1.3rem;
+            color: var(--moengage-dark);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .slide-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Cover Slide */
+        #cover-slide {
+            background: linear-gradient(135deg, var(--moengage-lighter-blue) 0%, var(--moengage-white) 100%);
+            color: var(--moengage-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .cover-content {
+            position: relative;
+            z-index: 5;
+            max-width: 1200px;
+            padding: 20px;
+        }
+        
+        .cover-content h1 {
+            font-size: 4.5rem;
+            margin-bottom: 25px;
+            line-height: 1.2;
+            color: var(--moengage-blue);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1.2s forwards 0.5s;
+        }
+        
+        .cover-content h1 span {
+            background: linear-gradient(90deg, var(--moengage-blue), var(--moengage-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .cover-content p {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            max-width: 900px;
+            color: var(--moengage-dark);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1.2s forwards 0.8s;
+        }
+        
+        .brand-animation-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin: 40px 0;
+        }
+        
+        .brand-animation {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .mg-brand, .moengage-brand {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation-duration: 2s;
+            animation-timing-function: ease-out;
+            animation-fill-mode: forwards;
+        }
+        
+        .mg-brand {
+            background: linear-gradient(135deg, var(--moengage-lighter-blue), var(--moengage-white));
+            border: 4px solid var(--moengage-blue);
+            left: 50%;
+            transform: translateX(-120%);
+            animation: slideInLeft 1.5s forwards 0.5s;
+        }
+        
+        .moengage-brand {
+            background: linear-gradient(135deg, var(--moengage-lighter-blue), var(--moengage-white));
+            border: 4px solid var(--moengage-secondary);
+            right: 50%;
+            transform: translateX(120%);
+            animation: slideInRight 1.5s forwards 0.5s;
+        }
+        
+        .brand-logo {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+        }
+        
+        .merged-brands {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--moengage-blue), var(--moengage-secondary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: mergeAnimation 1.5s forwards 2.5s;
+            box-shadow: 0 0 60px rgba(10, 122, 255, 0.3), 0 0 100px rgba(230, 46, 45, 0.3);
+        }
+        
+        .merged-logo {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+        
+        /* Personas Slide */
+        .personas-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .persona-card {
+            background: var(--moengage-white);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            width: 100%;
+            max-width: 320px;
+            transition: var(--transition);
+            border: 1px solid var(--moengage-light-blue);
+            transform: translateY(30px);
+            opacity: 0;
+        }
+        
+        .persona-card.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .persona-header {
+            padding: 25px 25px 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--moengage-lighter-blue), var(--moengage-white));
+            color: var(--moengage-dark);
+        }
+        
+        .persona-header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--moengage-blue), var(--moengage-secondary));
+        }
+        
+        .persona-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 3px solid var(--moengage-blue);
+            overflow: hidden;
+            background: var(--moengage-white);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .persona-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .persona-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--moengage-blue);
+        }
+        
+        .persona-header .tagline {
+            color: var(--moengage-secondary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+        
+        .persona-details {
+            padding: 25px;
+            background: var(--moengage-white);
+        }
+        
+        .persona-details ul {
+            list-style: none;
+        }
+        
+        .persona-details li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            color: var(--moengage-dark);
+            font-size: 1rem;
+        }
+        
+        .persona-details li i {
+            color: var(--moengage-blue);
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        /* Journey Slide */
+        .journey-container {
+            max-width: 1000px;
+            margin: 20px auto 0;
+        }
+        
+        .journey-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .journey-tab {
+            background: var(--moengage-white);
+            border: 2px solid var(--moengage-light-blue);
+            border-radius: 50px;
+            padding: 14px 35px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            color: var(--moengage-dark);
+            font-size: 1.2rem;
+            min-width: 240px;
+            justify-content: center;
+        }
+        
+        .journey-tab i {
+            font-size: 1.4rem;
+        }
+        
+        .journey-tab:hover {
+            transform: translateY(-5px);
+            background: var(--moengage-lighter-blue);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .journey-tab.active {
+            background: var(--moengage-blue);
+            border-color: var(--moengage-blue);
+            color: white;
+        }
+        
+        .journey-tab.active i {
+            color: white;
+        }
+        
+        .journey-tab.raj i { color: var(--moengage-blue); }
+        .journey-tab.shruti i { color: var(--moengage-secondary); }
+        .journey-tab.arjun i { color: #9b59b6; }
+        
+        .journey-visualization {
+            display: none;
+            position: relative;
+            min-height: 500px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .journey-visualization.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        .journey-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .journey-step {
+            position: relative;
+            padding: 0 0 40px 30px;
+            border-left: 4px solid var(--moengage-blue);
+        }
+        
+        .journey-step:last-child {
+            border-left: 4px solid transparent;
+        }
+        
+        .step-number {
+            position: absolute;
+            left: -42px;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--moengage-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            z-index: 2;
+            box-shadow: 0 3px 10px rgba(10, 122, 255, 0.3);
+        }
+        
+        .step-card {
+            background: var(--moengage-white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--moengage-light-blue);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .step-header {
+            padding: 12px 25px;
+            border-radius: 30px;
+            background: var(--moengage-blue);
+            color: white;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            align-self: flex-start;
+        }
+        
+        .step-header i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .step-content {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .customer-behavior, .moengage-intervention {
+            flex: 1;
+            padding: 15px;
+            border-radius: 15px;
+        }
+        
+        .customer-behavior {
+            background: var(--moengage-lighter-blue);
+            border: 1px solid var(--moengage-light-blue);
+        }
+        
+        .moengage-intervention {
+            background: rgba(230, 46, 45, 0.05);
+            border: 1px solid rgba(230, 46, 45, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: var(--moengage-blue);
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            color: var(--moengage-blue);
+            font-size: 1.4rem;
+        }
+        
+        .step-content p {
+            margin-bottom: 15px;
+            color: var(--moengage-dark);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            padding-left: 30px;
+        }
+        
+        .data-point {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--moengage-secondary);
+            opacity: 0;
+            animation: dataPoint 1.5s infinite;
+        }
+        
+        .moengage-intervention .section-title {
+            color: var(--moengage-secondary);
+        }
+        
+        /* AI Capabilities Slide */
+        .ai-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .ai-card {
+            background: var(--moengage-white);
+            border-radius: 20px;
+            padding: 35px 30px;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--moengage-light-blue);
+            transform: translateY(30px);
+            opacity: 0;
+        }
+        
+        .ai-card.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .ai-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            background: var(--moengage-lighter-blue);
+        }
+        
+        .ai-card i {
+            font-size: 3.5rem;
+            color: var(--moengage-blue);
+            margin-bottom: 20px;
+        }
+        
+        .ai-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--moengage-blue);
+        }
+        
+        .ai-card p {
+            color: var(--moengage-dark);
+            font-size: 1.05rem;
+        }
+        
+        /* Results Slide */
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .result-card {
+            background: var(--moengage-white);
+            border-radius: 20px;
+            padding: 40px 30px;
+            transition: var(--transition);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--moengage-light-blue);
+            text-align: center;
+            transform: translateY(30px);
+            opacity: 0;
+        }
+        
+        .result-card.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .result-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            background: var(--moengage-lighter-blue);
+        }
+        
+        .result-card i {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            color: var(--moengage-blue);
+            background: rgba(10, 122, 255, 0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+        
+        .result-card h3 {
+            font-size: 3.5rem;
+            margin: 20px 0;
+            color: var(--moengage-blue);
+            font-weight: 700;
+        }
+        
+        .result-card p {
+            font-size: 1.2rem;
+            color: var(--moengage-dark);
+        }
+        
+        /* CTA Slide */
+        #cta-slide {
+            background: linear-gradient(135deg, var(--moengage-blue) 0%, var(--moengage-accent) 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .cta-content {
+            max-width: 800px;
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: scale(0.9);
+            opacity: 0;
+            animation: fadeInScale 1.2s forwards 0.5s;
+        }
+        
+        #cta-slide h2 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        #cta-slide p {
+            font-size: 1.6rem;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--moengage-blue);
+            padding: 18px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.8s;
+        }
+        
+        .cta-button:hover:before {
+            left: 100%;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.4);
+        }
+        
+        /* Navigation */
+        .navigation-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+        
+        .nav-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--moengage-white);
+            color: var(--moengage-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            font-size: 1.4rem;
+            border: 1px solid var(--moengage-light-blue);
+        }
+        
+        .nav-button:hover {
+            background: var(--moengage-blue);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--moengage-white);
+            color: var(--moengage-blue);
+            border-radius: 30px;
+            padding: 10px 25px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            font-size: 1.1rem;
+            border: 1px solid var(--moengage-light-blue);
+        }
+        
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            to {
+                transform: translateX(-50%);
+            }
+        }
+        
+        @keyframes slideInRight {
+            to {
+                transform: translateX(50%);
+            }
+        }
+        
+        @keyframes mergeAnimation {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            70% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes dataPoint {
+            0% { transform: translateY(0) scale(0); opacity: 0; }
+            50% { opacity: 1; transform: translateY(-20px) scale(1.5); }
+            100% { transform: translateY(-40px) scale(0); opacity: 0; }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .cover-content h1 {
+                font-size: 3.8rem;
+            }
+            
+            .mg-brand, .moengage-brand {
+                width: 240px;
+                height: 240px;
+            }
+            
+            .merged-brands {
+                width: 260px;
+                height: 260px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .cover-content h1 {
+                font-size: 3.2rem;
+            }
+            
+            .cover-content p {
+                font-size: 1.5rem;
+            }
+            
+            .personas-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .persona-card {
+                max-width: 450px;
+            }
+            
+            .step-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .ai-container, .results-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .cover-content h1 {
+                font-size: 2.8rem;
+            }
+            
+            .cover-content p {
+                font-size: 1.3rem;
+            }
+            
+            .mg-brand, .moengage-brand {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .merged-brands {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .journey-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .journey-tab {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .ai-container, .results-container {
+                grid-template-columns: 1fr;
+            }
+            
+            #cta-slide h2 {
+                font-size: 2.8rem;
+            }
+            
+            #cta-slide p {
+                font-size: 1.3rem;
+            }
+            
+            .navigation-container {
+                bottom: 20px;
+            }
+            
+            .nav-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .cover-content h1 {
+                font-size: 2.3rem;
+            }
+            
+            .cover-content p {
+                font-size: 1.1rem;
+            }
+            
+            .slide-header h2 {
+                font-size: 2rem;
+            }
+            
+            .slide-header p {
+                font-size: 1.1rem;
+            }
+            
+            .cta-button {
+                padding: 15px 35px;
+                font-size: 1.1rem;
+            }
+            
+            .slide-counter {
+                bottom: 20px;
+                right: 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Cover Slide -->
+        <div id="cover-slide" class="ppt-slide active">
+            <div class="cover-content">
+                <h1>Intelligent <span>Customer Journeys</span></h1>
+                <p>How MG Motors India leverages MoEngage to create hyper-personalized experiences across the automotive lifecycle</p>
+                
+                <div class="brand-animation-container">
+                    <div class="brand-animation">
+                        <div class="mg-brand">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/MG_Motor_logo.svg/1200px-MG_Motor_logo.svg.png" alt="MG Motors" class="brand-logo">
+                        </div>
+                        <div class="moengage-brand">
+                            <img src="https://www.moengage.com/images/moengage-logo.svg" alt="MoEngage" class="brand-logo">
+                        </div>
+                        <div class="merged-brands">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNMjU2IDQ4QzE0MS4xIDQ4IDQ4IDE0MS4xIDQ4IDI1NnM5My4xIDIwOCAyMDggMjA4IDIwOC05My4xIDIwOC0yMDhTMzcwLjkgNDggMjU2IDQ4em0tMjQuOSA0MTEuNGMtODcuNiAwLTE1OC43LTcxLjEtMTU4LjctMTU4LjdzNzEuMS0xNTguNyAxNTguNy0xNTguN1MzOTAuMiAyMTMuMSAzOTAuMiAzMDAuNyAzMTkuMSA0NTkuNCAyMzEuMSA0NTkuNHptMjQxLjQtMi4zYy03MC45IDAtMTI4LjUtNTcuNi0xMjguNS0xMjguNXM1Ny42LTEyOC41IDEyOC41LTEyOC41UzYwMCAyMTcuOCA2MDAgMjg4LjcgNTQyLjQgNDU3LjEgNDcxLjUgNDU3LjF6IiBmaWxsPSIjZmZmIi8+PC9zdmc+" alt="MG Motors" class="merged-logo">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons" style="opacity: 0; animation: fadeUp 1.2s forwards 3.5s;">
+                    <a href="#personas" class="cta-button">Explore Journeys</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Personas Slide -->
+        <div class="ppt-slide">
+            <div class="slide-header">
+                <h2>Meet Our Indian Personas</h2>
+                <p>Understanding diverse customer journeys through tailored experiences</p>
+            </div>
+            <div class="slide-content">
+                <div class="personas-container">
+                    <!-- Raj -->
+                    <div class="persona-card">
+                        <div class="persona-header">
+                            <div class="persona-img">
+                                <img src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Raj">
+                            </div>
+                            <h3>Raj</h3>
+                            <div class="tagline">Tech-Driven First-Time Buyer</div>
+                        </div>
+                        <div class="persona-details">
+                            <ul>
+                                <li><i class="fas fa-user"></i> 28 years old</li>
+                                <li><i class="fas fa-briefcase"></i> Software Engineer</li>
+                                <li><i class="fas fa-heart"></i> EV Enthusiast</li>
+                                <li><i class="fas fa-store"></i> Visits dealership 3 times</li>
+                                <li><i class="fas fa-bolt"></i> Needs help with financing</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Shruti -->
+                    <div class="persona-card">
+                        <div class="persona-header">
+                            <div class="persona-img">
+                                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Shruti">
+                            </div>
+                            <h3>Shruti</h3>
+                            <div class="tagline">Safety-Focused Family Upgrader</div>
+                        </div>
+                        <div class="persona-details">
+                            <ul>
+                                <li><i class="fas fa-user"></i> 42 years old</li>
+                                <li><i class="fas fa-briefcase"></i> Doctor</li>
+                                <li><i class="fas fa-users"></i> Mother of two</li>
+                                <li><i class="fas fa-car"></i> Test drives multiple vehicles</li>
+                                <li><i class="fas fa-calendar"></i> Needs service reminders</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Arjun -->
+                    <div class="persona-card">
+                        <div class="persona-header">
+                            <div class="persona-img">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Arjun">
+                            </div>
+                            <h3>Arjun</h3>
+                            <div class="tagline">Deal-Hunting Business Owner</div>
+                        </div>
+                        <div class="persona-details">
+                            <ul>
+                                <li><i class="fas fa-user"></i> 50 years old</li>
+                                <li><i class="fas fa-briefcase"></i> Entrepreneur</li>
+                                <li><i class="fas fa-car"></i> Owns 3 vehicles</li>
+                                <li><i class="fas fa-handshake"></i> Meets with sales team</li>
+                                <li><i class="fas fa-plane"></i> Travels frequently</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Raj's Journey Slide -->
+        <div class="ppt-slide">
+            <div class="slide-header">
+                <h2>Raj's Journey</h2>
+                <p>Tech-Driven First-Time Buyer Experience</p>
+            </div>
+            <div class="slide-content">
+                <div class="journey-container">
+                    <div class="journey-tabs">
+                        <button class="journey-tab raj active" data-persona="raj">
+                            <i class="fas fa-laptop-code"></i> Raj's Journey
+                        </button>
+                        <button class="journey-tab shruti" data-persona="shruti">
+                            <i class="fas fa-shield-alt"></i> Shruti's Journey
+                        </button>
+                        <button class="journey-tab arjun" data-persona="arjun">
+                            <i class="fas fa-handshake"></i> Arjun's Journey
+                        </button>
+                    </div>
+                    
+                    <!-- Raj's Journey -->
+                    <div id="raj-journey" class="journey-visualization active">
+                        <div class="journey-steps">
+                            <!-- Step 1 -->
+                            <div class="journey-step">
+                                <div class="step-number">1</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-search"></i> Digital Discovery
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Raj's Behavior
+                                            </div>
+                                            <p>Searches "best EV under ₹30L" on Google, visits MG India website multiple times, compares specs of MG ZS EV</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Merlin AI creates EV enthusiast segment, triggers personalized email with ZS EV tech specs and charging network details</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2 -->
+                            <div class="journey-step">
+                                <div class="step-number">2</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-store"></i> Dealership Visit
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Raj's Behavior
+                                            </div>
+                                            <p>Visits MG dealership in Bangalore, test drives ZS EV, asks detailed tech questions about charging infrastructure</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>CRM integration captures visit data, triggers push notification with charging station map and financing options</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3 -->
+                            <div class="journey-step">
+                                <div class="step-number">3</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-mobile-alt"></i> App Engagement
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Raj's Behavior
+                                            </div>
+                                            <p>Downloads MG India app, explores EV features but abandons financing calculator</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Sherpa AI detects drop-off, sends personalized SMS with simplified EMI calculator and government incentives</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 4 -->
+                            <div class="journey-step">
+                                <div class="step-number">4</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-file-contract"></i> Purchase Process
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Raj's Behavior
+                                            </div>
+                                            <p>Visits dealership to finalize purchase but hesitates on extended warranty options</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>AI personalization engine recommends tailored warranty package based on driving profile analysis</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 5 -->
+                            <div class="journey-step">
+                                <div class="step-number">5</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-charging-station"></i> Post-Purchase Support
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Raj's Behavior
+                                            </div>
+                                            <p>Uses MG India app to locate charging stations during first road trip to Mysore</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Predictive assistance provides real-time charging station availability and trip planning suggestions</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 6 -->
+                            <div class="journey-step">
+                                <div class="step-number">6</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-star"></i> Loyalty & Advocacy
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Raj's Behavior
+                                            </div>
+                                            <p>Shares positive experience on Twitter after 6 months of ownership with #MGEVExperience</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Sentiment analysis identifies brand advocate, enrolls in referral program with exclusive benefits</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Shruti's Journey -->
+                    <div id="shruti-journey" class="journey-visualization">
+                        <div class="journey-steps">
+                            <!-- Step 1 -->
+                            <div class="journey-step">
+                                <div class="step-number">1</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-search"></i> Safety Research
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Shruti's Behavior
+                                            </div>
+                                            <p>Searches "safest family SUV India" and reads MG Hector safety awards on MG India portal</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Merlin AI identifies safety-focused segment, recommends Hector features through personalized content</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2 -->
+                            <div class="journey-step">
+                                <div class="step-number">2</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-car"></i> Family Test Drive
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Shruti's Behavior
+                                            </div>
+                                            <p>Visits MG dealership in Delhi with family, tests child safety features, asks about service plans</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Dealership integration syncs visit data, sends customized service package options via email</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3 -->
+                            <div class="journey-step">
+                                <div class="step-number">3</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-file-invoice-dollar"></i> Ownership Costs
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Shruti's Behavior
+                                            </div>
+                                            <p>Compares service costs on MG India website, abandons service calculator</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Behavioral targeting triggers personalized SMS with simplified cost breakdown and service advisor contact</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 4 -->
+                            <div class="journey-step">
+                                <div class="step-number">4</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-handshake"></i> Purchase Decision
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Shruti's Behavior
+                                            </div>
+                                            <p>Negotiates final deal at dealership, requests child seat installation for her Hector</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Omnichannel orchestration schedules installation and sends personalized onboarding package</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 5 -->
+                            <div class="journey-step">
+                                <div class="step-number">5</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-tools"></i> First Service
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Shruti's Behavior
+                                            </div>
+                                            <p>Brings car for first service at MG Delhi, mentions upcoming monsoon season</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Predictive analytics triggers monsoon maintenance reminders and seasonal care tips</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 6 -->
+                            <div class="journey-step">
+                                <div class="step-number">6</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-users"></i> Family Advocate
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Shruti's Behavior
+                                            </div>
+                                            <p>Recommends MG Hector to other parents at her children's school in Delhi</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Advocate program activates with referral rewards and exclusive community access</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Arjun's Journey -->
+                    <div id="arjun-journey" class="journey-visualization">
+                        <div class="journey-steps">
+                            <!-- Step 1 -->
+                            <div class="journey-step">
+                                <div class="step-number">1</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-search"></i> Business Needs
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Arjun's Behavior
+                                            </div>
+                                            <p>Researches "luxury business vehicles" online, visits MG corporate section, compares fleet options</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Merlin AI identifies corporate segment, assigns dedicated sales manager for enterprise purchase</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2 -->
+                            <div class="journey-step">
+                                <div class="step-number">2</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-handshake"></i> Corporate Meeting
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Arjun's Behavior
+                                            </div>
+                                            <p>Meets with MG sales team at Mumbai office, negotiates fleet pricing, requests custom features</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>CRM integration captures requirements, triggers personalized proposal with custom fleet management options</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3 -->
+                            <div class="journey-step">
+                                <div class="step-number">3</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-cogs"></i> Fleet Customization
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Arjun's Behavior
+                                            </div>
+                                            <p>Requests custom branding and telematics integration for his corporate fleet</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Enterprise solution configures custom requirements, provides real-time implementation updates</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 4 -->
+                            <div class="journey-step">
+                                <div class="step-number">4</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-truck-loading"></i> Delivery & Onboarding
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Arjun's Behavior
+                                            </div>
+                                            <p>Coordinates staggered delivery of 5 vehicles to different office locations</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Omnichannel coordination manages delivery schedule, provides real-time updates via WhatsApp</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 5 -->
+                            <div class="journey-step">
+                                <div class="step-number">5</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-plane"></i> Remote Service Management
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Arjun's Behavior
+                                            </div>
+                                            <p>Needs to schedule service for multiple vehicles while traveling internationally</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Dedicated corporate portal enables remote service scheduling with priority handling</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 6 -->
+                            <div class="journey-step">
+                                <div class="step-number">6</div>
+                                <div class="step-card">
+                                    <div class="step-header">
+                                        <i class="fas fa-expand"></i> Fleet Expansion
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="customer-behavior">
+                                            <div class="section-title">
+                                                <i class="fas fa-user"></i> Arjun's Behavior
+                                            </div>
+                                            <p>Considers expanding fleet after positive experience with first 5 vehicles</p>
+                                        </div>
+                                        <div class="moengage-intervention">
+                                            <div class="section-title">
+                                                <i class="fas fa-cogs"></i> MoEngage Intervention
+                                            </div>
+                                            <p>Predictive analytics identifies expansion opportunity, triggers loyalty offer with priority delivery</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI Capabilities Slide -->
+        <div class="ppt-slide">
+            <div class="slide-header">
+                <h2>MoEngage Automotive Solutions</h2>
+                <p>Leveraging AI for personalized customer experiences throughout the automotive lifecycle</p>
+            </div>
+            <div class="slide-content">
+                <div class="ai-container">
+                    <div class="ai-card">
+                        <i class="fas fa-brain"></i>
+                        <h3>Merlin AI</h3>
+                        <p>Automated segment creation based on real-time behavior patterns across channels</p>
+                    </div>
+                    
+                    <div class="ai-card">
+                        <i class="fas fa-rocket"></i>
+                        <h3>Sherpa AI Optimization</h3>
+                        <p>Channel, content and timing optimization through continuous A/B testing</p>
+                    </div>
+                    
+                    <div class="ai-card">
+                        <i class="fas fa-sync-alt"></i>
+                        <h3>Omnichannel Orchestration</h3>
+                        <p>Seamless customer experiences across web, app, email, SMS, WhatsApp and offline</p>
+                    </div>
+                    
+                    <div class="ai-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Predictive Analytics</h3>
+                        <p>Anticipate customer needs, churn risks and service requirements before they happen</p>
+                    </div>
+                    
+                    <div class="ai-card">
+                        <i class="fas fa-robot"></i>
+                        <h3>Next-Best Action</h3>
+                        <p>AI recommends optimal engagement strategies for each customer interaction</p>
+                    </div>
+                    
+                    <div class="ai-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Customer 360 View</h3>
+                        <p>Unified customer profile integrating online and offline interactions across touchpoints</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Slide -->
+        <div class="ppt-slide">
+            <div class="slide-header">
+                <h2>Proven Results in Automotive</h2>
+                <p>Quantifiable outcomes from implementing MoEngage personalization</p>
+            </div>
+            <div class="slide-content">
+                <div class="results-container">
+                    <div class="result-card">
+                        <i class="fas fa-sync-alt"></i>
+                        <h3>68%</h3>
+                        <p>Increase in lead conversion through offline-online sync</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <i class="fas fa-users"></i>
+                        <h3>92%</h3>
+                        <p>Service retention with personalized follow-ups</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>3.5x</h3>
+                        <p>ROI on dealership visits with timely nudges</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <i class="fas fa-robot"></i>
+                        <h3>42%</h3>
+                        <p>Higher engagement with AI-optimized content</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <i class="fas fa-car"></i>
+                        <h3>35%</h3>
+                        <p>Reduction in service center walk-ins through proactive maintenance</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <i class="fas fa-handshake"></i>
+                        <h3>57%</h3>
+                        <p>Increase in customer lifetime value through personalized offers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA Slide -->
+        <div id="cta-slide" class="ppt-slide">
+            <div class="cta-content">
+                <h2>Transform Your Customer Experience</h2>
+                <p>Discover how MoEngage can create intelligent, personalized journeys for MG India customers across the entire automotive lifecycle</p>
+                <a href="#" class="cta-button">Request a Custom Demo</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Navigation -->
+    <div class="navigation-container">
+        <button class="nav-button" id="prev-slide"><i class="fas fa-arrow-left"></i></button>
+        <button class="nav-button" id="next-slide"><i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <div class="slide-counter">
+        Slide <span id="current-slide">1</span> of <span id="total-slides">5</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.ppt-slide');
+            const totalSlides = slides.length;
+            let currentSlide = 0;
+            
+            // Set total slides count
+            document.getElementById('total-slides').textContent = totalSlides;
+            
+            // Show first slide
+            slides[currentSlide].classList.add('active');
+            
+            // Animate persona cards when slide becomes active
+            function animateSlideElements() {
+                const currentSlideEl = slides[currentSlide];
+                
+                // Animate persona cards
+                const personaCards = currentSlideEl.querySelectorAll('.persona-card');
+                personaCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('active');
+                    }, index * 300);
+                });
+                
+                // Animate AI cards
+                const aiCards = currentSlideEl.querySelectorAll('.ai-card');
+                aiCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('active');
+                    }, index * 200);
+                });
+                
+                // Animate result cards
+                const resultCards = currentSlideEl.querySelectorAll('.result-card');
+                resultCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('active');
+                    }, index * 200);
+                });
+            }
+            
+            // Initial animation
+            setTimeout(animateSlideElements, 500);
+            
+            // Next slide function
+            function nextSlide() {
+                if (currentSlide < totalSlides - 1) {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide++;
+                    slides[currentSlide].classList.add('active');
+                    updateSlideCounter();
+                    setTimeout(animateSlideElements, 300);
+                }
+            }
+            
+            // Previous slide function
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide--;
+                    slides[currentSlide].classList.add('active');
+                    updateSlideCounter();
+                    setTimeout(animateSlideElements, 300);
+                }
+            }
+            
+            // Update slide counter
+            function updateSlideCounter() {
+                document.getElementById('current-slide').textContent = currentSlide + 1;
+            }
+            
+            // Navigation button event listeners
+            document.getElementById('next-slide').addEventListener('click', nextSlide);
+            document.getElementById('prev-slide').addEventListener('click', prevSlide);
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') nextSlide();
+                if (e.key === 'ArrowLeft') prevSlide();
+            });
+            
+            // Journey tabs functionality
+            const journeyTabs = document.querySelectorAll('.journey-tab');
+            
+            journeyTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const persona = this.getAttribute('data-persona');
+                    const journeyContainer = this.closest('.journey-container');
+                    
+                    // Update active tab
+                    journeyContainer.querySelectorAll('.journey-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show selected journey
+                    journeyContainer.querySelectorAll('.journey-visualization').forEach(visual => {
+                        visual.classList.remove('active');
+                        if (visual.id === `${persona}-journey`) {
+                            visual.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Create dynamic data points in intervention sections
+            const interventionSections = document.querySelectorAll('.moengage-intervention');
+            interventionSections.forEach(section => {
+                for (let i = 0; i < 5; i++) {
+                    const point = document.createElement('div');
+                    point.className = 'data-point';
+                    point.style.left = `${Math.random() * 80 + 10}%`;
+                    point.style.top = `${Math.random() * 60 + 20}%`;
+                    point.style.animationDelay = `${Math.random() * 2}s`;
+                    section.appendChild(point);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
